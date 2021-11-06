@@ -1,0 +1,22 @@
+<div class="container text-center">
+
+    <div class="w-50 mx-auto mt-5" >
+
+        <h1>Todos</h1>
+
+        <input 
+        
+            [class.is-invalid]="errorInName"
+            (mouseenter)="errorInName = false"
+        (keyup.enter)="addNewTodo()" [(ngModel)]="newTodo.title" class="mb-2 w-100 form-control" type="text"
+            placeholder="Nuevo todo">
+        <ul class="list-group">
+            <li *ngFor="let todo of todos" class="list-group-item">
+                <input (click)="completeThisTodo(todo._id)" [checked]="todo.completed" class="form-check-input" type="checkbox">
+                <span>{{todo.title}}</span>
+
+                <button (click)="deleteThisTodo(todo._id)" type="button" class="btn-close" aria-label="Close"></button>
+            </li>
+        </ul>
+    </div>
+</div>
