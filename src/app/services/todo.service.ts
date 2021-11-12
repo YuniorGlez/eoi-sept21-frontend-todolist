@@ -15,12 +15,14 @@ export class TodoService {
 
 
   public getAll() {
-    return axios.get<TODO[]>(`${this.url}/todos`)
+    const token = localStorage.getItem('token')
+    return axios.get<TODO[]>(`${this.url}/todos` ,   { headers : { "authorization" : `Bearer ${token}`  }})
       .then(result => result.data)
   }
 
   public save(newTodo: TODO) {
-    return axios.post<TODO>(`${this.url}/todos`, newTodo)
+    const token = localStorage.getItem('token')
+    return axios.post<TODO>(`${this.url}/todos`, newTodo,  { headers : { "authorization" : `Bearer ${token}`  }})
       .then(result => result.data)
   }
 

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/services/auth.service';
 import { TodoService } from 'src/app/services/todo.service';
 
 
@@ -27,17 +28,30 @@ export class HomeComponent {
     _id: ""
   }
   errorInName : boolean = false;
+  logged = false;
+  loginForm = { email : "yunior+eoi5@squaads.com", password : "990011"}
 
   todos: TODO[] = [];
 
-  constructor(private todoService: TodoService, private toastr: ToastrService) {
+  constructor(
+    private todoService: TodoService, 
+    private toastr: ToastrService, 
+    private authService : AuthService) {
+      if (localStorage.getItem('token')){
+        this.logged = true;
+        this.loadData();
+      }
+  }
+
+
+  loadData(){
     this.todoService.getAll()
-      .then(resultados => {
-        this.todos = resultados;
-      })
-      .catch(err => {
-        this.toastr.error('No se han podido cargar los todos', 'Titulo')
-      })
+    .then(resultados => {
+      this.todos = resultados;
+    })
+    .catch(err => {
+      this.toastr.error('No se han podido cargar los todos', 'Titulo')
+    })
   }
 
   addNewTodo() {
@@ -60,6 +74,19 @@ export class HomeComponent {
       })
   }
 
+  login(){
+    this.authService.login( this.loginForm )
+      .then(res => {
+        localStorage.setItem('token', res.token);
+        this.logged = true;
+        this.loadData();
+      })
+      .catch(err => {
+        // if (err.status == 400){
+        //   this.toastr.error(err.data.message, 'Error')
+        // }
+      })
+  }
 
   deleteThisTodo(id: string) {
     this.todoService.removeOne(id)
