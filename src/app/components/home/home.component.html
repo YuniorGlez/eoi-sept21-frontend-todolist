@@ -1,14 +1,13 @@
-<nav class="navbar text-right" *ngIf="!logged">
-    Mi super todo list  
-    <input [(ngModel)]="loginForm.email" placeholder="email" type="text">
-    <input [(ngModel)]="loginForm.password" placeholder="password" type="password">
-    <button (click)="login()"> Login </button>
 
+<nav class="navbar text-right">
+    Mi super todo list
+
+    <span> {{currentUser.name}}  </span>
 </nav>
 <div class="container text-center">
 
 
-    <div *ngIf="logged" class="w-50 mx-auto mt-5" >
+    <div class="w-50 mx-auto mt-5" >
 
         <h1>Todos</h1>
 
